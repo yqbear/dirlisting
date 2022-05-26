@@ -1,5 +1,84 @@
-from dirlisting import __version__
+from io import StringIO
+
+from dirlisting import dirlisting
+
+from test_helper import assert_by_lines
 
 
-def test_version():
-    assert __version__ == "0.1.0"
+def test_single_dir_with_str(capsys):
+    input = "- top:"
+    listing = dirlisting.Dirlisting(input)
+    listing.print()
+    captured = capsys.readouterr()
+    assert captured.out.startswith("top")
+
+
+def test_single_dir_with_file(capsys):
+    with StringIO("- toplevel:") as input:
+        listing = dirlisting.Dirlisting(input)
+    listing.print()
+    captured = capsys.readouterr()
+    assert captured.out.startswith("toplevel")
+
+
+def test_child_files(capsys):
+    input = """
+        - top:
+          - file1.txt
+          - file2.txt
+        """
+    expected = """
+        top
+        ├── file1.txt
+        └── file2.txt
+        """
+    listing = dirlisting.Dirlisting(input)
+    listing.print()
+    captured = capsys.readouterr()
+    assert_by_lines(captured.out, expected)
+
+
+def test_dir_as_child(capsys):
+    input = """
+        - top:
+          - file1.txt
+          - file2.txt
+          - subdir:
+            - file3.txt
+        """
+    expected = """
+        top
+        ├── file1.txt
+        ├── file2.txt
+        └── subdir
+            └── file3.txt
+        """
+    listing = dirlisting.Dirlisting(input)
+    listing.print()
+    captured = capsys.readouterr()
+    assert_by_lines(captured.out, expected)
+
+
+def test_continue_past_subdir(capsys):
+    input = """
+        - toplevel:
+          - subdir1:
+            - file1.txt
+            - file2.txt
+          - subdir2:
+            - file3.txt
+            - file4.txt
+        """
+    expected = """
+        toplevel
+        ├── subdir1
+        │   ├── file1.txt
+        │   └── file2.txt
+        └── subdir2
+            ├── file3.txt
+            └── file4.txt
+        """
+    listing = dirlisting.Dirlisting(input)
+    listing.print()
+    captured = capsys.readouterr()
+    assert_by_lines(captured.out, expected)
