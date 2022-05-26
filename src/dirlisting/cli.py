@@ -4,7 +4,7 @@ from dirlisting.dirlisting import Dirlisting
 
 
 @click.command()
-@click.argument('file', type=click.File())
+@click.argument("file", type=click.File())
 def app(file):
     """Create a directory listing given an input FILE.
 
@@ -12,12 +12,14 @@ def app(file):
     after them and files without.
 
     Example
+    -------
+    This is a very simple input file.::
 
-    \b
-    - topdir:
-      - file1.txt
-      - somedir:
-        - another_file.txt
+        \b
+        - topdir:
+          - file1.txt
+          - somedir:
+            - another_file.txt
     """
     listing = Dirlisting(file)
     listing.print()
