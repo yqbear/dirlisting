@@ -6,9 +6,11 @@
 
 # -- Project information -----------------------------------------------------
 
-project = u"dirlisting"
-copyright = u"2022, Stephan Poole"
-author = u"Stephan Poole"
+project = "dirlisting"
+copyright = "2022, Stephan Poole"
+author = "Stephan Poole"
+
+release = "0.1.0"
 
 # -- General configuration ---------------------------------------------------
 
@@ -20,6 +22,7 @@ extensions = [
     "autoapi.extension",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
+    "sphinx_design",
 ]
 autoapi_dirs = ["../src"]
 
@@ -27,6 +30,7 @@ autoapi_dirs = ["../src"]
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+nitpicky = True
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -34,3 +38,21 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # a list of builtin themes.
 #
 html_theme = "sphinx_rtd_theme"
+html_static_path = ['_static']
+html_css_files = ["css/custom.css"]
+
+# -- MyST options ------------------------------------------------------------
+
+myst_enable_extensions = [
+    "colon_fence",
+    "deflist",
+    "dollarmath",
+    "fieldlist",
+    "html_image",
+    "linkify",
+    "strikethrough",
+    "substitution",
+    "tasklist",
+]
+
+myst_heading_anchors = 3
