@@ -26,11 +26,16 @@ class Dirlisting:
         """
         self._data = yaml.load(stream, yaml.SafeLoader)
 
-    def print(self):
-        """Print the directory listing in a nice tree format."""
+    def print(self, is_sort=False):
+        """Print the directory listing in a nice tree format.
+
+        Args:
+            is_sort (bool): Whether or not to sort the child entries.
+
+        """
         topname, children = self._name_and_children(self._data[0])
         print(topname)
-        self._print_children(children)
+        self._print_children(children, is_sort)
 
     def _is_dir(self, entry):
         """Whether or not an entry is a directory.
@@ -61,7 +66,21 @@ class Dirlisting:
             children = []
         return name, children
 
-    def _print_children(self, children, prefix=""):
+    def _entry_name(self, entry):
+        """Return the name of the directory or file.
+
+        Args:
+            entry (str or dict): The entry to check.
+
+        Returns:
+            The str with the name of the entry
+        """
+        name = entry
+        if self._is_dir(entry):
+            name, _ = self._name_and_children(entry)
+        return name
+
+    def _print_children(self, children, is_sort, prefix=""):
         """Recursive function to print the children of a directory.
 
         The prefix is added to with each level of the tree. Each child gets the TEE
@@ -70,12 +89,15 @@ class Dirlisting:
 
         Args:
             children (list): A list of the dir's children; may be empty.
+            is_sort (bool): Whether or not to sort the child entries.
             prefix (str): The prefix to output for each child.
 
         Returns:
             None
 
         """
+        if is_sort:
+            children.sort(key=self._entry_name)
         num_children = len(children)
         for index, child in enumerate(children):
             if index == num_children - 1:
@@ -87,6 +109,6 @@ class Dirlisting:
             if self._is_dir(child):
                 name, next_children = self._name_and_children(child)
                 print(f"{prefix}{connector} {name}")
-                self._print_children(next_children, prefix + add_prefix)
+                self._print_children(next_children, is_sort, prefix + add_prefix)
             else:
                 print(f"{prefix}{connector} {child}")

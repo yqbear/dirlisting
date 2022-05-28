@@ -1,28 +1,30 @@
 import click
 
+from dirlisting import __version__
 from dirlisting.dirlisting import Dirlisting
 
 
 @click.command()
+@click.version_option(version=__version__)
+@click.option("--sort", "is_sort", is_flag=True, default=False, help="Sort the directory entries.")
 @click.argument("file", type=click.File())
-def app(file):
+def app(is_sort, file):
     """Create a directory listing given an input FILE.
 
     The input should be a yaml file with directories having a colon
     after them and files without.
 
-    Example
-    -------
-    This is a very simple input file.::
+    Example:
+        This is a very simple input file.::
 
-        \b
-        - topdir:
-          - file1.txt
-          - somedir:
-            - another_file.txt
+            \b
+            - topdir:
+              - file1.txt
+              - somedir:
+                - another_file.txt
     """
     listing = Dirlisting(file)
-    listing.print()
+    listing.print(is_sort=is_sort)
 
 
 if __name__ == "__main__":
