@@ -38,9 +38,10 @@ dirlisting [OPTIONS] FILE
   Create a directory listing given an input FILE.
 
 Options:
-  --version  Show the version and exit.
-  --sort     Sort the directory entries.
-  --help     Show this message and exit.
+  --version    Show the version and exit.
+  --sort       Sort the directory entries.
+  --dirsfirst  List directories before files.
+  --help       Show this message and exit.
 ```
 
 ### File format
