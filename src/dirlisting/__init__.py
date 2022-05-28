@@ -1,4 +1,3 @@
-# read version from installed package
-from importlib.metadata import version
+"""dirlisting"""
 
-__version__ = version("dirlisting")
+__version__ = "0.1.0"

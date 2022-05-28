@@ -1,4 +1,3 @@
-from black import is_simple_decorator_expression
 import click
 
 from dirlisting import __version__

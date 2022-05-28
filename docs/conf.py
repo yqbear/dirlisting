@@ -4,13 +4,15 @@
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
+from dirlisting import __version__
+
 # -- Project information -----------------------------------------------------
 
 project = "dirlisting"
 copyright = "2022, Stephan Poole"
 author = "Stephan Poole"
 
-release = "0.1.0"
+release = __version__
 
 # -- General configuration ---------------------------------------------------
 

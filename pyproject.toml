@@ -17,6 +17,7 @@ black = "^22.3.0"
 pytest = "^7.1.2"
 pytest-cov = "^3.0.0"
 pre-commit = "^2.19.0"
+python-semantic-release = "^7.29.0"
 
 [tool.poetry.scripts]
 dirlisting = "dirlisting.cli:app"
@@ -28,6 +29,13 @@ branch = true
 exclude_lines = [
     "pragma: no cover",
     "if __name__ == .__main__.:",
+]
+
+[tool.semantic_release]
+branch = "main"
+version_toml = "pyproject.toml:tool.poetry.version"
+version_variable = [
+    "src/dirlisting/__init__.py:__version__",
 ]
 
 [build-system]
