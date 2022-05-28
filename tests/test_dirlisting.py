@@ -1,5 +1,6 @@
 from io import StringIO
 
+import pytest
 from dirlisting import dirlisting
 
 from test_helper import assert_by_lines
@@ -80,5 +81,37 @@ def test_continue_past_subdir(capsys):
         """
     listing = dirlisting.Dirlisting(input)
     listing.print()
+    captured = capsys.readouterr()
+    assert_by_lines(captured.out, expected)
+
+
+@pytest.fixture
+def unsorted():
+    input = """
+        - toplevel:
+          - yfile.txt
+          - mdir:
+            - dfile.txt
+            - bfile.txt
+          - kdir:
+            - afile.txt
+          - bfile.txt
+        """
+    return input
+
+
+def test_sorting_list(capsys, unsorted):
+    expected = """
+        toplevel
+        ├── bfile.txt
+        ├── kdir
+        │   └── afile.txt
+        ├── mdir
+        │   ├── bfile.txt
+        │   └── dfile.txt
+        └── yfile.txt
+        """
+    listing = dirlisting.Dirlisting(unsorted)
+    listing.print(is_sort=True)
     captured = capsys.readouterr()
     assert_by_lines(captured.out, expected)
