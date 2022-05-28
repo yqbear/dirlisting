@@ -1,3 +1,4 @@
+from black import is_simple_decorator_expression
 import click
 
 from dirlisting import __version__
@@ -9,8 +10,15 @@ from dirlisting.dirlisting import Dirlisting
 @click.option(
     "--sort", "is_sort", is_flag=True, default=False, help="Sort the directory entries."
 )
+@click.option(
+    "--dirsfirst",
+    "is_dirsfirst",
+    is_flag=True,
+    default=False,
+    help="List directories before files.",
+)
 @click.argument("file", type=click.File())
-def app(is_sort, file):
+def app(is_sort, is_dirsfirst, file):
     """Create a directory listing given an input FILE.
 
     The input should be a yaml file with directories having a colon
@@ -26,7 +34,7 @@ def app(is_sort, file):
                 - another_file.txt
     """
     listing = Dirlisting(file)
-    listing.print(is_sort=is_sort)
+    listing.print(is_sort=is_sort, is_dirsfirst=is_dirsfirst)
 
 
 if __name__ == "__main__":

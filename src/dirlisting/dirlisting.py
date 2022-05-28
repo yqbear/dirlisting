@@ -26,16 +26,17 @@ class Dirlisting:
         """
         self._data = yaml.load(stream, yaml.SafeLoader)
 
-    def print(self, is_sort=False):
+    def print(self, is_sort=False, is_dirsfirst=False):
         """Print the directory listing in a nice tree format.
 
         Args:
             is_sort (bool): Whether or not to sort the child entries.
+            is_dirsfirst (bool): Whether or not to list directories first.
 
         """
         topname, children = self._name_and_children(self._data[0])
         print(topname)
-        self._print_children(children, is_sort)
+        self._print_children(children, is_sort, is_dirsfirst)
 
     def _is_dir(self, entry):
         """Whether or not an entry is a directory.
@@ -80,7 +81,7 @@ class Dirlisting:
             name, _ = self._name_and_children(entry)
         return name
 
-    def _print_children(self, children, is_sort, prefix=""):
+    def _print_children(self, children, is_sort, is_dirsfirst, prefix=""):
         """Recursive function to print the children of a directory.
 
         The prefix is added to with each level of the tree. Each child gets the TEE
@@ -90,6 +91,7 @@ class Dirlisting:
         Args:
             children (list): A list of the dir's children; may be empty.
             is_sort (bool): Whether or not to sort the child entries.
+            is_dirsfirst (bool): Whether or not to list directories first.
             prefix (str): The prefix to output for each child.
 
         Returns:
@@ -97,7 +99,9 @@ class Dirlisting:
 
         """
         if is_sort:
-            children.sort(key=self._entry_name)
+            children = sorted(children, key=self._entry_name)
+        if is_dirsfirst:
+            children = sorted(children, key=lambda e: not self._is_dir(e))
         num_children = len(children)
         for index, child in enumerate(children):
             if index == num_children - 1:
@@ -109,6 +113,8 @@ class Dirlisting:
             if self._is_dir(child):
                 name, next_children = self._name_and_children(child)
                 print(f"{prefix}{connector} {name}")
-                self._print_children(next_children, is_sort, prefix + add_prefix)
+                self._print_children(
+                    next_children, is_sort, is_dirsfirst, prefix + add_prefix
+                )
             else:
                 print(f"{prefix}{connector} {child}")
