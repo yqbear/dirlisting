@@ -6,7 +6,9 @@ from dirlisting.dirlisting import Dirlisting
 
 @click.command()
 @click.version_option(version=__version__)
-@click.option("--sort", "is_sort", is_flag=True, default=False, help="Sort the directory entries.")
+@click.option(
+    "--sort", "is_sort", is_flag=True, default=False, help="Sort the directory entries."
+)
 @click.argument("file", type=click.File())
 def app(is_sort, file):
     """Create a directory listing given an input FILE.
