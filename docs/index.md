@@ -12,3 +12,11 @@ conduct.md
 autoapi/index
 adr/index
 ```
+
+```{toctree}
+:caption: Project Links
+:hidden:
+
+GitHub <https://github.com/yqbear/dirlisting>
+PyPI <https://pypi.org/project/dirlisting/>
+```

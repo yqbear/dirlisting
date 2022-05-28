@@ -1,6 +1,11 @@
 # dirlisting
 
-Create a directory tree listing diagram from a text file.
+Create a directory tree listing from a text file for use in documentation.
+
+There are plenty of good tools out there to produce directory tree listings from an
+existing directory structure. This tool handles the situation when you don't have and
+don't want to create a directory structure for the sole purpose of producing a directory
+tree listing for a document or email.
 
 ## Installation
 
@@ -10,9 +15,9 @@ $ pip install dirlisting
 
 ## Usage
 
-`dirlisting` can be used to create a directory tree digram that looks like those created
-with the `tree` command, but from a text file instead of walking an actual directory
-tree.
+`dirlisting` can be used to create a directory tree listing that looks like those
+created with the `tree` command, but from a text file instead of walking an actual
+directory tree.
 
 ### From code
 
@@ -25,7 +30,18 @@ listing.print()
 
 ### From the command line
 
-just use `dirlisting <filename>`.
+Just use `dirlisting <filename>`.
+
+``` none
+dirlisting [OPTIONS] FILE
+
+  Create a directory listing given an input FILE.
+
+Options:
+  --version  Show the version and exit.
+  --sort     Sort the directory entries.
+  --help     Show this message and exit.
+```
 
 ### File format
 
@@ -37,10 +53,10 @@ dirname:`). A listing would look like the following.
 ::::{grid-item-card} YAML File
 ```yaml
 - topdir:
-  - subdir1:
+  - emptydir:
   - file1.txt
   - file2.txt
-  - subdir2:
+  - subdir:
     - file3.txt
 ```
 ::::

@@ -1,0 +1,8 @@
+- toplevel:
+  - yfile.txt
+  - mdir:
+    - dfile.txt
+    - bfile.txt
+  - kdir:
+    - afile.txt
+  - bfile.txt
