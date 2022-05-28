@@ -115,3 +115,37 @@ def test_sorting_list(capsys, unsorted):
     listing.print(is_sort=True)
     captured = capsys.readouterr()
     assert_by_lines(captured.out, expected)
+
+
+def test_sort_dirs_first(capsys, unsorted):
+    expected = """
+        toplevel
+        ├── mdir
+        │   ├── dfile.txt
+        │   └── bfile.txt
+        ├── kdir
+        │   └── afile.txt
+        ├── yfile.txt
+        └── bfile.txt
+        """
+    listing = dirlisting.Dirlisting(unsorted)
+    listing.print(is_dirsfirst=True)
+    captured = capsys.readouterr()
+    assert_by_lines(captured.out, expected)
+
+
+def test_sort_name_with_dirs_first(capsys, unsorted):
+    expected = """
+        toplevel
+        ├── kdir
+        │   └── afile.txt
+        ├── mdir
+        │   ├── bfile.txt
+        │   └── dfile.txt
+        ├── bfile.txt
+        └── yfile.txt
+        """
+    listing = dirlisting.Dirlisting(unsorted)
+    listing.print(is_sort=True, is_dirsfirst=True)
+    captured = capsys.readouterr()
+    assert_by_lines(captured.out, expected)
