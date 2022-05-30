@@ -1,3 +1,5 @@
+import sys
+
 import yaml
 
 
@@ -14,7 +16,7 @@ class Dirlisting:
     a later release.
     """
 
-    def __init__(self, stream):
+    def __init__(self, stream, out=None):
         """Initializes an instance of Dirlisting.
 
         Both a file stream or a string can be used to initialize an instance of the
@@ -22,9 +24,11 @@ class Dirlisting:
 
         Args:
             stream (str or file stream): The input YAML stream.
+            out (stream): Where the output will be directed.
 
         """
         self._data = yaml.load(stream, yaml.SafeLoader)
+        self._out = sys.stdout if out is None else out
 
     def print(self, is_sort=False, is_dirsfirst=False):
         """Print the directory listing in a nice tree format.
@@ -35,7 +39,9 @@ class Dirlisting:
 
         """
         topname, children = self._name_and_children(self._data[0])
-        print(topname)
+        # print(topname)
+        self._out.write(topname)
+        self._out.write("\n")
         self._print_children(children, is_sort, is_dirsfirst)
 
     def _is_dir(self, entry):
@@ -112,9 +118,13 @@ class Dirlisting:
                 add_prefix = PIPE_PREFIX
             if self._is_dir(child):
                 name, next_children = self._name_and_children(child)
-                print(f"{prefix}{connector} {name}")
+                # print(f"{prefix}{connector} {name}")
+                self._out.write(f"{prefix}{connector} {name}")
+                self._out.write("\n")
                 self._print_children(
                     next_children, is_sort, is_dirsfirst, prefix + add_prefix
                 )
             else:
-                print(f"{prefix}{connector} {child}")
+                # print(f"{prefix}{connector} {child}")
+                self._out.write(f"{prefix}{connector} {child}")
+                self._out.write("\n")
