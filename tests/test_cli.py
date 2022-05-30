@@ -95,3 +95,26 @@ def test_dirsfirst(unsorted):
         result = runner.invoke(app, ["--dirsfirst", "input.yaml"])
         assert result.exit_code == 0
         assert_by_lines(result.output, expected)
+
+
+@pytest.mark.parametrize("out_opt", ["--output", "-o"])
+def test_file_output(out_opt, unsorted):
+    expected = """
+        toplevel
+        ├── xdir
+        │   ├── bfile.txt
+        │   └── afile.txt
+        ├── pfile.txt
+        ├── mdir
+        │   ├── cfile.txt
+        │   └── dfile.txt
+        └── efile.txt
+        """
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        with open("input.yaml", "w") as f:
+            f.write(unsorted)
+        result = runner.invoke(app, [out_opt, "listing.txt", "input.yaml"])
+        assert result.exit_code == 0
+        with open("listing.txt", "r") as f:
+            assert_by_lines(f.read(), expected)

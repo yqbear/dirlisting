@@ -1,9 +1,16 @@
+import sys
 from io import StringIO
 
 import pytest
 from dirlisting import dirlisting
 
 from test_helper import assert_by_lines
+
+
+def test_sys_stdout(capsys):
+    input = "- top:"
+    listing = dirlisting.Dirlisting(input)
+    assert sys.stdout == listing._out
 
 
 def test_single_dir_with_str(capsys):
@@ -149,3 +156,21 @@ def test_sort_name_with_dirs_first(capsys, unsorted):
     listing.print(is_sort=True, is_dirsfirst=True)
     captured = capsys.readouterr()
     assert_by_lines(captured.out, expected)
+
+
+def test_output_to_file(capsys, unsorted):
+    expected = """
+        toplevel
+        ├── yfile.txt
+        ├── mdir
+        │   ├── dfile.txt
+        │   └── bfile.txt
+        ├── kdir
+        │   └── afile.txt
+        └── bfile.txt
+        """
+    out = StringIO()
+    listing = dirlisting.Dirlisting(unsorted, out)
+    listing.print()
+    out.seek(0)
+    assert_by_lines(out.read(), expected)
