@@ -21,11 +21,26 @@ directory tree.
 
 ### From code
 
+**Reading a file**
+
 ```python
 from dirlisting.dirlisting import Dirlisting
 with open("input.yaml") as f:
     listing = Dirlisting(f)
 listing.print()
+```
+
+**From a string**
+
+```
+from dirlisting.dirlisting import Dirlisting
+input = """
+- topdir:
+  - subdir1:
+    - file1.txt
+    - file2.txt
+"""
+Dirlisting(input).print()
 ```
 
 ### From the command line
@@ -38,10 +53,11 @@ dirlisting [OPTIONS] FILE
   Create a directory listing given an input FILE.
 
 Options:
-  --version    Show the version and exit.
-  --sort       Sort the directory entries.
-  --dirsfirst  List directories before files.
-  --help       Show this message and exit.
+  --version              Show the version and exit.
+  -s, --sort             Sort the directory entries.
+  -d, --dirsfirst        List directories before files.
+  -o, --output FILENAME  Output to this file.
+  --help                 Show this message and exit.
 ```
 
 ### File format
