@@ -41,6 +41,7 @@ tag_format = "{version}"
 upload_to_pypi = false
 upload_to_release = true
 patch_without_tag = true
+remove_dist = false
 build_command = "pip install poetry && poetry build"
 
 [build-system]
