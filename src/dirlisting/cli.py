@@ -1,3 +1,5 @@
+import sys
+
 import click
 
 from dirlisting import __version__
@@ -16,8 +18,11 @@ from dirlisting.dirlisting import Dirlisting
     default=False,
     help="List directories before files.",
 )
+@click.option(
+    "-o", "--output", type=click.File("w"), default=None, help="Output to this file."
+)
 @click.argument("file", type=click.File())
-def app(is_sort, is_dirsfirst, file):
+def app(is_sort, is_dirsfirst, output, file):
     """Create a directory listing given an input FILE.
 
     The input should be a yaml file with directories having a colon
@@ -32,7 +37,7 @@ def app(is_sort, is_dirsfirst, file):
               - somedir:
                 - another_file.txt
     """
-    listing = Dirlisting(file)
+    listing = Dirlisting(file, out=output)
     listing.print(is_sort=is_sort, is_dirsfirst=is_dirsfirst)
 
 
