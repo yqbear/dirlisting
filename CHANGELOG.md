@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.3.1 (2022-05-30)
+### Documentation
+* Update usage in readme file ([`c296968`](https://github.com/yqbear/dirlisting/commit/c296968565feffd289e7303e8376c0197b2d2275))
+
 ## v0.3.0 (2022-05-30)
 ### Feature
 * Add short options for CLI ([`52b8e13`](https://github.com/yqbear/dirlisting/commit/52b8e13f92c5e64823cff382dbcc01b3287b4ad9))
