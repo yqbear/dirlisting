@@ -9,9 +9,15 @@ from dirlisting.dirlisting import Dirlisting
 @click.command()
 @click.version_option(version=__version__)
 @click.option(
-    "--sort", "is_sort", is_flag=True, default=False, help="Sort the directory entries."
+    "-s",
+    "--sort",
+    "is_sort",
+    is_flag=True,
+    default=False,
+    help="Sort the directory entries.",
 )
 @click.option(
+    "-d",
     "--dirsfirst",
     "is_dirsfirst",
     is_flag=True,
