@@ -53,7 +53,8 @@ def unsorted():
     return input
 
 
-def test_sorted(unsorted):
+@pytest.mark.parametrize("opt", ["--sort", "-s"])
+def test_sorted(opt, unsorted):
     expected = """
         toplevel
         ├── efile.txt
@@ -70,12 +71,13 @@ def test_sorted(unsorted):
         with open("input.yaml", "w") as f:
             f.write(unsorted)
 
-        result = runner.invoke(app, ["--sort", "input.yaml"])
+        result = runner.invoke(app, [opt, "input.yaml"])
         assert result.exit_code == 0
         assert_by_lines(result.output, expected)
 
 
-def test_dirsfirst(unsorted):
+@pytest.mark.parametrize("opt", ["--dirsfirst", "-d"])
+def test_dirsfirst(opt, unsorted):
     expected = """
         toplevel
         ├── xdir
@@ -92,7 +94,7 @@ def test_dirsfirst(unsorted):
         with open("input.yaml", "w") as f:
             f.write(unsorted)
 
-        result = runner.invoke(app, ["--dirsfirst", "input.yaml"])
+        result = runner.invoke(app, [opt, "input.yaml"])
         assert result.exit_code == 0
         assert_by_lines(result.output, expected)
 
