@@ -1,11 +1,20 @@
 # dirlisting
 
+[![Documentation Status](https://readthedocs.org/projects/dirlisting/badge/?version=latest)](https://dirlisting.readthedocs.io/en/latest/?badge=latest)
+
+
 Create a directory tree listing from a text file for use in documentation.
 
 There are plenty of good tools out there to produce directory tree listings from an
 existing directory structure. This tool handles the situation when you don't have and
 don't want to create a directory structure for the sole purpose of producing a directory
 tree listing for a document or email.
+
+----
+
+**[Read the documentation on ReadTheDocs!](https://dirlisting.readthedocs.io/en/stable/)**
+
+----
 
 ## Installation
 
