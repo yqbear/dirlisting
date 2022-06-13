@@ -5,6 +5,10 @@ description = "Create a directory listing diagram from text file"
 authors = ["Stephan Poole"]
 license = "MIT"
 readme = "README.md"
+homepage = "https://github.com/yqbear/dirlisting/"
+repository = "https://github.com/yqbear/dirlisting/"
+documentation = "https://dirlisting.readthedocs.io/en/latest/"
+
 
 [tool.poetry.dependencies]
 python = "^3.9"
