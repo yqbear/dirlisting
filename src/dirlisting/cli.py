@@ -1,5 +1,3 @@
-import sys
-
 import click
 
 from dirlisting import __version__
@@ -25,9 +23,13 @@ from dirlisting.dirlisting import Dirlisting
     help="List directories before files.",
 )
 @click.option(
-    "-o", "--output", type=click.File("w"), default=None, help="Output to this file."
+    "-o",
+    "--output",
+    type=click.File("w", encoding="utf-8"),
+    default=None,
+    help="Output to this file.",
 )
-@click.argument("file", type=click.File())
+@click.argument("file", type=click.File("r", encoding="utf-8"))
 def app(is_sort, is_dirsfirst, output, file):
     """Create a directory listing given an input FILE.
 
