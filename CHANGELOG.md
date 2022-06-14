@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v0.4.0 (2022-06-13)
+### Feature
+* File in/out now always uses utf-8 ([`66eeb01`](https://github.com/yqbear/dirlisting/commit/66eeb01c086d5b121d7691d27e7e47cd11528409))
+
+### Documentation
+* Add information relating to file format ([`480f607`](https://github.com/yqbear/dirlisting/commit/480f607c87c0a31a99fdb72c3be2db88ea79f70b))
+* Add links to RTD in readme ([`3bd7c5b`](https://github.com/yqbear/dirlisting/commit/3bd7c5b4d11e081149e0b20bb93b586081b0897d))
+
 ## v0.3.1 (2022-05-30)
 ### Documentation
 * Update usage in readme file ([`c296968`](https://github.com/yqbear/dirlisting/commit/c296968565feffd289e7303e8376c0197b2d2275))
