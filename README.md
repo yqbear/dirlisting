@@ -71,9 +71,10 @@ Options:
 
 ### File format
 
-The input file is a [yaml](https://yaml.org/) file. The contents of a directory are
-sequences, files are final strings (`- filename`), and directories are mappings (`-
-dirname:`). A listing would look like the following.
+The input file is a [yaml](https://yaml.org/) file. Each of the entries is treated as
+part of a sequence and starts with a `-`. The files are final strings and the file name
+comes after the dash (`- filename`). The directories are mappings and the directory name
+is followed by a colon (`- dirname:`). A listing would look like the following.
 
 :::::{grid} 2
 ::::{grid-item-card} YAML File
@@ -97,6 +98,10 @@ topdir
 ```
 ::::
 :::::
+
+When using the output option to save to a file, the file will be saved with "utf-8"
+encoding. On a Mac or Linux machine this works seamlessly. There can be problems with
+the console on Windows, but most modern editors can open the file with "utf-8" encoding.
 
 ## Contributing
 
