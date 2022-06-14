@@ -2,37 +2,50 @@ from inspect import cleandoc
 
 import pytest
 from click.testing import CliRunner
+from dirlisting import __version__
 from dirlisting.cli import app
 
 from test_helper import assert_by_lines
 
 
-def test_version():
-    runner = CliRunner()
-    result = runner.invoke(app, ["--version"])
+def run_app(*params, runner=None):
+    if runner is None:
+        runner = CliRunner()
+    result = runner.invoke(app, params)
     assert result.exit_code == 0
-    assert "app, version" in result.output
+    return result.output.rstrip()
 
 
-def test_file_input():
+def test_version():
+    assert run_app("--version") == f"app, version {__version__}"
+
+
+@pytest.fixture
+def runner_and_file():
     input = cleandoc(
         """
         - toplevel:
-          - subdir1:
-            - file1.txt
-          - subdir2:
-            - file2.txt
-            - file3.txt
+          - xdir:
+            - bfile.txt
+            - afile.txt
+          - pfile.txt
+          - mdir:
+            - cfile.txt
+            - dfile.txt
+          - efile.txt
         """
     )
+    filename = "unsorted.yaml"
     runner = CliRunner()
     with runner.isolated_filesystem():
-        with open("input.yaml", "w") as f:
-            f.write(input)
+        with open(filename, "w", encoding="utf-8") as yamlfile:
+            yamlfile.write(input)
+        yield runner, filename
 
-        result = runner.invoke(app, ["input.yaml"])
-        assert result.exit_code == 0
-        assert "toplevel" in result.output
+
+def test_file_input(runner_and_file):
+    runner, filename = runner_and_file
+    assert "toplevel" in run_app(filename, runner=runner)
 
 
 @pytest.fixture
@@ -54,7 +67,7 @@ def unsorted():
 
 
 @pytest.mark.parametrize("opt", ["--sort", "-s"])
-def test_sorted(opt, unsorted):
+def test_sorted(opt, runner_and_file):
     expected = """
         toplevel
         ├── efile.txt
@@ -66,18 +79,12 @@ def test_sorted(opt, unsorted):
             ├── afile.txt
             └── bfile.txt
         """
-    runner = CliRunner()
-    with runner.isolated_filesystem():
-        with open("input.yaml", "w") as f:
-            f.write(unsorted)
-
-        result = runner.invoke(app, [opt, "input.yaml"])
-        assert result.exit_code == 0
-        assert_by_lines(result.output, expected)
+    runner, filename = runner_and_file
+    assert_by_lines(run_app(opt, filename, runner=runner), expected)
 
 
 @pytest.mark.parametrize("opt", ["--dirsfirst", "-d"])
-def test_dirsfirst(opt, unsorted):
+def test_dirsfirst(opt, runner_and_file):
     expected = """
         toplevel
         ├── xdir
@@ -89,18 +96,12 @@ def test_dirsfirst(opt, unsorted):
         ├── pfile.txt
         └── efile.txt
         """
-    runner = CliRunner()
-    with runner.isolated_filesystem():
-        with open("input.yaml", "w") as f:
-            f.write(unsorted)
-
-        result = runner.invoke(app, [opt, "input.yaml"])
-        assert result.exit_code == 0
-        assert_by_lines(result.output, expected)
+    runner, filename = runner_and_file
+    assert_by_lines(run_app(opt, filename, runner=runner), expected)
 
 
 @pytest.mark.parametrize("out_opt", ["--output", "-o"])
-def test_file_output(out_opt, unsorted):
+def test_file_output(out_opt, runner_and_file):
     expected = """
         toplevel
         ├── xdir
@@ -112,11 +113,7 @@ def test_file_output(out_opt, unsorted):
         │   └── dfile.txt
         └── efile.txt
         """
-    runner = CliRunner()
-    with runner.isolated_filesystem():
-        with open("input.yaml", "w") as f:
-            f.write(unsorted)
-        result = runner.invoke(app, [out_opt, "listing.txt", "input.yaml"])
-        assert result.exit_code == 0
-        with open("listing.txt", "r") as f:
-            assert_by_lines(f.read(), expected)
+    runner, filename = runner_and_file
+    run_app(out_opt, "listing.txt", filename, runner=runner)
+    with open("listing.txt", "r", encoding="utf-8") as f:
+        assert_by_lines(f.read(), expected)
