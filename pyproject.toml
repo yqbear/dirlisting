@@ -35,6 +35,10 @@ exclude_lines = [
     "if __name__ == .__main__.:",
 ]
 
+[tool.pytest.ini_options]
+addopts = ["--strict-markers", "--strict-config", "-ra"]
+testpaths = "tests"
+
 [tool.semantic_release]
 branch = "main"
 version_toml = 'pyproject.toml:tool.poetry.version'
